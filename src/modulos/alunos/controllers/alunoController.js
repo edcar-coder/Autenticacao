@@ -1,5 +1,5 @@
 const Aluno = require("../models/aluno.model");
-
+const bcrypt =require('bcryptjs')
 class AlunoController {
   static async cadastrar(req, res) {
     try {
@@ -9,8 +9,10 @@ class AlunoController {
           .status(400)
           .json({ msg: "Todos os campos devem serem preenchidos!" });
       }
-      const aluno = await Aluno.create({ matricula, nome, email, senha });
-      res.status(200).json({ msg: `Aluno ${aluno.nome} criado com sucesso` });
+      // criptografando a senha
+      const senhaCriptografada = await bcrypt.hash(senha, 15);
+      await Aluno.create({ matricula, nome, email, senha: senhaCriptografada });
+      res.status(200).json({ msg: 'Aluno criado com sucesso' });
     } catch (error) {
         res.status(500).json({msg: 'Erro do servidor. Tente novamente mais tarde!'})
     }
@@ -26,18 +28,6 @@ class AlunoController {
         res.status(500).json({msg: 'Erro do servidor. Tente novamente mais tarde!'})
     }
   }
-  static async login() {
-    try {
-        
-    } catch (error) {
-        
-    }
-  }
-  static async sair() {
-    try {
-        
-    } catch (error) {
-        
-    }
-  }
 }
+
+module.exports = AlunoController
