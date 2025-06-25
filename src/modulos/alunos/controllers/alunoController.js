@@ -1,9 +1,9 @@
-const Aluno = require("../models/aluno.model");
+const Aluno = require("../models/alunoModel");
 const bcrypt =require('bcryptjs')
 class AlunoController {
   static async cadastrar(req, res) {
     try {
-      const { matricula, nome, email, senha } = req.body;
+      const { nome, matricula, email, senha } = req.body;
       if (!matricula || !nome || !email || !senha) {
         return res
           .status(400)
